@@ -8,7 +8,7 @@
   },
   "proxy": {
     "/api": {
-      "target": "http://jsonplaceholder.typicode.com/",
+      "target": "http://rap2.taobao.org:38080/app/mock/247219/api/",
       "changeOrigin": true,
       "pathRewrite": { "^/api" : "" }
     }

@@ -73,6 +73,7 @@ function Users({ dispatch, list: dataSource, loading, total, page: current }) {
     },
   ];
 
+  console.log("\n\n\n\t\t数据"+JSON.stringify(dataSource)+"\t\t\n\n\n");
   return (
     <div className={styles.normal}>
       <div>
@@ -102,6 +103,8 @@ function Users({ dispatch, list: dataSource, loading, total, page: current }) {
 
 function mapStateToProps(state) {
   const { list, total, page } = state.users;
+  console.log("\n\nmapStateToProps(state)==>>>"+JSON.stringify(state.users)+"\n\n\n");
+  console.log("\n\nmapStateToProps(state)==>>>"+JSON.stringify(list)+"\t\ttotal"+total+"\t\t\tpage"+page+"\n\n\n");
   return {
     loading: state.loading.models.users,
     list,

@@ -14,13 +14,14 @@ export default {
   },
   effects: {
     *fetch({ payload: { page = 1 } }, { call, put }) {
+      console.log("再先执行");
       const { data, headers } = yield call(usersService.fetch, { page });
       yield put({
         type: 'save',
         payload: {
-          data,
-          total: parseInt(headers['x-total-count'], 10),
-          page: parseInt(page, 10),
+          data: data.list,
+          total: data.total,
+          page: data.page,
         },
       });
     },
@@ -43,8 +44,11 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
+      console.log("先执行");
+      // pathname和query参数在哪里声明了，还是可以直接用的
       return history.listen(({ pathname, query }) => {
         if (pathname === '/users') {
+          console.log("\n\n\n查询参数"+JSON.stringify(query)+"\n\n\n\n");
           dispatch({ type: 'fetch', payload: query });
         }
       });

@@ -1,23 +1,44 @@
+import React from 'react';
 import { Router as DefaultRouter, Route, Switch } from 'react-router-dom';
 import dynamic from 'umi/dynamic';
-import('/Users/chencheng/Documents/Work/Misc/dva/packages/dva-example-user-dashboard/src/global.css');
-import Layout from '/Users/chencheng/Documents/Work/Misc/dva/packages/dva-example-user-dashboard/src/layouts/index.js';
+import renderRoutes from 'umi/_renderRoutes';
+import { routerRedux } from 'dva/router';
 
-const Router = window.g_CustomRouter || DefaultRouter;
+
+let Router = DefaultRouter;
+const { ConnectedRouter } = routerRedux;
+Router = ConnectedRouter;
+
+
+let routes = [
+  {
+    "path": "/",
+    "component": require('../../layouts/index.js').default,
+    "routes": [
+      {
+        "path": "/users",
+        "exact": true,
+        "component": require('../users/page.js').default
+      },
+      {
+        "path": "/",
+        "exact": true,
+        "component": require('../index.js').default
+      },
+      {
+        "component": () => React.createElement(require('/home/hgp/workspace/nodejs/dva/examples/user-dashboard/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', routes: '[{"path":"/","component":"./src/layouts/index.js","routes":[{"path":"/users","exact":true,"component":"./src/pages/users/page.js"},{"path":"/","exact":true,"component":"./src/pages/index.js"}]}]' })
+      }
+    ]
+  }
+];
+
 
 export default function() {
   return (
-    <Router history={window.g_history}>
-      <Layout>
-        <Switch>
-          <Route exact path="/" component={require('../index.js').default} />
-          <Route
-            exact
-            path="/users"
-            component={require('../users/page.js').default}
-          />
-        </Switch>
-      </Layout>
-    </Router>
+<Router history={window.g_history}>
+  <Route render={({ location }) =>
+    renderRoutes(routes, {}, { location })
+  } />
+</Router>
   );
 }
